@@ -28,13 +28,13 @@ int main()
 		b = a + frequency[c][0];
 		frequency[c][1] = a;
 		frequency[c][2] = b;
-		cout << c << " ";
-		cout.width(10);
-		cout << frequency[c][0] << " ";
-		cout.width(10);
-		cout << frequency[c][1] << " ";
-		cout.width(10);
-		cout << frequency[c][2] << endl;
+		//cout << c << " ";
+		//cout.width(10);
+		//cout << frequency[c][0] << " ";
+		//cout.width(10);
+		//cout << frequency[c][1] << " ";
+		//cout.width(10);
+		//cout << frequency[c][2] << endl;
 		a = b;
 		c = fin.get();
 	}
