@@ -28,6 +28,13 @@ int main()
 		b = a + frequency[c][0];
 		frequency[c][1] = a;
 		frequency[c][2] = b;
+		cout << c << " ";
+		cout.width(10);
+		cout << frequency[c][0] << " ";
+		cout.width(10);
+		cout << frequency[c][1] << " ";
+		cout.width(10);
+		cout << frequency[c][2] << endl;
 		a = b;
 		c = fin.get();
 	}
@@ -36,14 +43,21 @@ int main()
 	int temp = size_of_chars;
 	while (fin>>num)
 	{
+		double long _h,
+			_l,
+			h = 1,
+			l = 0;
 		while ((temp--) && (count--))
 		{
 			for (auto s : frequency)
 			{
-				if (frequency[s.first][2] > num && frequency[s.first][1] <= num)
+				_l = l + frequency[s.first][1] * (h - l);
+				_h = l + frequency[s.first][2] * (h - l);
+				if (_l <= num && num < _h)
 				{
+					l = _l;
+					h = _h;
 					fout << s.first;
-					num = (num - s.second[1]) / (s.second[2] - s.second[1]);
 					break;
 				}
 			}
