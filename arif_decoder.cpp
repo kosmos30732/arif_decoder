@@ -1,49 +1,44 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <cstddef>
 #include <map>
-#include <iomanip>
+#include <cstddef>
 using namespace std;
 
 int main()
 {
-	ifstream fin("output.txt");
+	ifstream fin("output.txt", ios::binary);
 	ofstream fout("text_input.txt");
 
 	unsigned long long count;
+	unsigned int freq_size;
 	short int size_of_chars;
-	int freq_size;
-	fin >> count >> size_of_chars >> freq_size;
 
-	map <unsigned char, double long*> frequency;
-	double long a = 0, b = 0;
+	fin.read((char*)&count, sizeof(count));
+	fin.read((char*)&size_of_chars, sizeof(size_of_chars));
+	fin.read((char*)&freq_size, sizeof(freq_size));
+
+	map <unsigned char, double*> frequency;
+	double a = 0, b = 0;
 	while (freq_size--)
 	{
 		unsigned char c;
-		int freq;
-		c = fin.get();
-		fin >> freq;
-		frequency[c] = new double long[3];
-		frequency[c][0] = double long(freq) / double long(count);
+		unsigned int freq;
+		fin.read((char*)&c, sizeof(c));
+		fin.read((char*)&freq, sizeof(freq));
+
+		frequency[c] = new double[3];
+		frequency[c][0] = double(freq) / double(count);
 		b = a + frequency[c][0];
 		frequency[c][1] = a;
 		frequency[c][2] = b;
-		//cout << c << " ";
-		//cout.width(10);
-		//cout << frequency[c][0] << " ";
-		//cout.width(10);
-		//cout << frequency[c][1] << " ";
-		//cout.width(10);
-		//cout << frequency[c][2] << endl;
 		a = b;
-		c = fin.get();
 	}
 
-	double long num;
+	double num;
 	int temp = size_of_chars;
-	while (fin>>num)
+	while (fin.read(reinterpret_cast<char*>(&num), sizeof(num)))
 	{
-		double long _h,
+		double _h,
 			_l,
 			h = 1,
 			l = 0;
@@ -63,6 +58,10 @@ int main()
 			}
 		}
 		temp = size_of_chars;
+		if (fin.peek() == EOF)
+		{
+			break;
+		}
 	}
 
 	return 0;
