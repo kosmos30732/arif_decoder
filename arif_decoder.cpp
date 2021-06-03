@@ -2,6 +2,7 @@
 #include <fstream>
 #include <map>
 #include <cstddef>
+constexpr short int SIZEOF_NUM = 7;
 using namespace std;
 
 int main()
@@ -34,14 +35,27 @@ int main()
 		a = b;
 	}
 
-	double num;
+	double num=0;
 	int temp = size_of_chars;
-	while (fin.read(reinterpret_cast<char*>(&num), sizeof(num)))
+	while (count)
 	{
 		double _h,
 			_l,
 			h = 1,
 			l = 0;
+		for (int j = 0; j < SIZEOF_NUM; j++)
+		{
+			unsigned char buf;
+			fin.read((char*)&buf, sizeof(buf));
+			for (int i = 0; i < 8; i++)
+			{
+				if ((1<<i)&buf)
+				{
+					num += double(1) / pow(2, j * 8 + i + 1);
+				}
+			}
+		}
+
 		while ((temp--) && (count--))
 		{
 			for (auto s : frequency)
@@ -62,6 +76,7 @@ int main()
 		{
 			break;
 		}
+		num = 0;
 	}
 
 	return 0;
